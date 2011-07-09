@@ -139,3 +139,163 @@ end
 
 puts hasValue?("aaa")
 
+#5.2 繰り返し
+#5.2.1 while と until
+x = 10
+while x >= 0 do
+	puts x
+	x = x - 1
+end
+
+x = 0
+until x > 10 do
+	puts x
+	x = x + 1
+end
+
+#5.2.2 修飾子としてのwhile,until
+x = 0
+puts x = x + 1 while x < 10
+
+x = 0
+while x < 10 do puts x = x + 1 end
+
+a = [1,2,3]
+puts a.pop until a.empty?
+
+x = 10
+begin
+	puts x
+	x = x - 1
+end until x == 0
+
+#5.2.3 for/in ループ
+#配列の要素を出力
+array = [1,2,3,4,5]
+for element in array
+	puts element
+end
+#ハッシュのキーと値を出力
+hash = {:a=>1, :b=>2, :c=>3}
+for key,value in hash
+	puts "#{key} => #{value}"
+end
+
+hash.each do |key, value|
+	puts "#{key} => #{value}"
+end
+
+#5.3 イテレータとEnumerableオブジェクト
+#5.3.1 数値イテレータ
+4.upto(6) { |x| print x}
+print "\n"
+3.times { |x| print x }
+print "\n"
+0.step(Math::PI, 0.1){|x| puts Math.sin(x)}
+
+#5.3.2 Enumerable オブジェクト
+[1,2,3].each{|x| print x}
+(1..3).each{|x| print x}
+
+filename = "aaa.txt"
+File.open(filename) do |f|
+	f.each{|line| puts line}
+end
+
+File.open(filename) do |f|
+	f.each_with_index do |line,number|
+		print "#{number}: #{line}"
+	end
+end
+
+squares = [1,2,3].collect { |x| x*x }
+p squares
+evens  = (1..10).select { |x| x%2 == 0 }
+p evens
+odds = (1..10).reject { |x| x%2 == 0 }
+p odds
+
+data = [2,5,3,4]
+sum = data.inject {|sum, x| sum + x}
+puts sum
+floatprod = data.inject(1.0){|p, x| p*x}
+puts floatprod
+max = data.inject {|m, x| m > x ? m : x }
+puts max
+
+#5.3.3 カスタムイテレータ
+def twice
+	yield
+	yield
+end
+
+twice do
+puts "aaa"
+end
+
+def sequence(n,m,c)
+	i = 0
+	while(i < n)
+		yield m*i + c
+		i += 1
+	end
+end
+
+sequence(3,5,1){ |y| puts y}
+
+
+def circle(r,n)
+	n.times do |i|
+		angle = Math::PI*2*i/n
+		yield r*Math.cos(angle), r*Math.sin(angle)
+	end
+end
+
+circle(1,4){|x,y| printf "(%.2f, %.2f) ", x, y }
+print "\n"
+
+def  sequence2(n,m,c)
+	i,s = 0, []
+	while(i < n)
+		y = m*i + c
+		yield y if block_given?
+		s << y
+		i += 1
+	end
+	s
+end
+
+sequence2(3,5,1){ |y| puts y}
+
+#5.3.4 Enumerator
+#Enumerator -> 他のオブジェクトを数え上げることを目的とするEnumerableオブジェクト
+require 'enumerator'
+#s = "hello"
+#ss = s.enum_for.map{|c| c.succ}
+#puts ss
+
+#enumerator = 3.times
+#enumerator.each { |x| print x}
+#print "\n"
+
+#downtoはselectメソッドを持つEnumeratorを返す
+#p 10.downto(1).select{ |x| x%2==0 }
+
+#each_byteは、to_aメソッドをもつEnumeratorを返す
+#p "hello".each_byte.to_a
+
+#5.4 ブロック
+#5.4.1 ブロックの構文
+1.upto(10) { |x| puts x}
+1.upto(10) do |x|
+  puts x
+end
+
+1.upto(3){|x| puts x}
+1.upto 3 do |x| puts x end
+
+hash.each do |key, value|
+  puts "#{key}: #{value}"
+end
+
+ 
