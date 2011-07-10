@@ -298,4 +298,63 @@ hash.each do |key, value|
   puts "#{key}: #{value}"
 end
 
- 
+#5.4.2 ブロックの値
+p words = %w{zz, xxx, yyy, wwww, bbbbb, cccccc, aaaaaaa}
+p words.sort!{ |x, y| y.length <=> x.length }
+
+p array = [0, 1, 2, 3, 4, 5]
+array2 = array.collect do |x|
+    next 0 if x == nil
+    next x, x*x
+end
+p array2
+
+array = Array.new
+p array.collect do |x|
+	if x == nil
+	  0
+	else
+	  [x, x*x]
+	end
+end
+
+#5.4.3 ブロックと変数のスコープ
+data = [1, 2, 3, 4, 5]
+total = 0
+data.each { |x| total += x }
+puts total
+
+1.upto(10) do |i|		#10行
+    print "trueRow => #{i} * "
+	1.upto(10) do |i|       #各行に10列
+		print "#{i} "   #列番号を出力
+	end			#
+	print " ==> Row #{i}\n" #列番号を出力したいが、行番号の処理で書き換えられている。
+end
+
+#x = y = 0
+#1.upto(4) do |x;y|
+#	y = x + 1
+#	puts y*y
+#end
+#[x,y]
+
+#5.4.4 ブロックへの引数渡し
+{:one=>1}.each_pair{|key, value| print "#{key}, #{value}\n"}
+
+def two; yield 1,2; end
+two {|x| p x } 
+two {|*x| p x }  #まとめて配列にする。
+two {|x,| p x }  #先頭の一つ以外は無視する。
+
+def five; yield 1,2,3,4,5; end
+five do |head, body, *tail|
+	print head, body, "#{tail}\n"
+end
+
+def hashiter; yield :a=>1, :b=>2; end
+hashiter{|hash| puts hash[:a] }
+
+
+
+
