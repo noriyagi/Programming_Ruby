@@ -355,6 +355,174 @@ end
 def hashiter; yield :a=>1, :b=>2; end
 hashiter{|hash| puts hash[:a] }
 
+#5.5 制御フローの変更
+#5.5.1 retuen
+def double(x)
+	return nil if x == nil
+	return x, x.dup
+end
+puts double("a")
 
+def find(array, target)
+	array.each_with_index do |element, index|
+		return index if (element == target)  #イテレータだけでなく、メソッドから抜ける。
+	end
+	nil					     #見つからなければ、nilを返す。
+end
 
+p words = %w{aa bb cc dd ee}
+puts find(words, "bb")
 
+#5.5.2 break
+#while(line = gets)
+#	break if line.chomp == "quit"
+#	puts eval(line)
+#end
+#puts "Good bye!"
+
+#f.each do |line|
+#	break if line == "quit\n"
+#	puts eval(line)
+#end
+#puts "Good bye!!"
+
+#5.5.3 next
+#while line = gets
+#	next if line[0,1] == "#"   #先頭がコメント行ならば。
+#	puts eval(line)
+#end
+
+p data = [1, 2, 3, -4, 5]
+squareroots = data.collect do |x|
+	next 0 if x < 0
+	Math.sqrt(x)
+end
+p squareroots
+
+p data = [1, 2, 3, -4, 5]
+squareroots2 = data.collect do |x|
+	if (x < 0) then 0 else Math.sqrt(x) end
+end
+p squareroots2
+
+#5.5.4 redo
+i = 0
+while(i < 3)
+	#redoするとここに戻る。
+	print i
+	i += 1
+	redo if i == 3
+end
+
+#puts "以下のキーワードから連想する単語を入力してください。"
+#words = %w(apple banana cherry)
+#response = words.collect do |word|
+#	#redoはここに戻る。
+#	print word + "> "
+#	break nil unless response = gets
+#	
+#	if response.chomp.size == 0
+#		word.upcase!
+#		redo
+#	end
+#	response
+#end
+
+#5.5.5 retry
+n = 10
+n.times do |x|
+	print x
+	if x == 9
+		n -= 1
+		retry
+	end
+end
+
+print "\n"
+
+def repeat_while(x)
+	if x
+		yield
+		retry
+	end
+end
+
+#5.5.6 throw と catch
+#for matrix in data do
+#	catch :missing_data do
+#		for row in matrix do
+#			for value in row do
+#				throw :missing_data unless value
+#			end
+#		end
+#	end
+#end
+
+#5.6 例外と例外処理
+#5.6.1 例外クラスと例外オブジェクト
+#5.6.2 raise による例外の生成
+def factorial(n)
+	raise "bad argument" if n < 1
+	return 1 if n == 1
+	n*factorial(n-1)
+end
+
+puts factorial(6)
+
+#5.6.3 rescueによる例外処理
+#5.6.3.1 例外オブジェクトの命名
+#begin
+#	x = factorial(-1)
+#rescue => ex
+#	puts "#{ex.class}: #{ex.message}"
+#end
+
+begin
+	x = factorial(1)
+rescue ArgumentError => ex
+	puts "1以上の値を指定してください"
+rescue TypeError => ex
+	puts "整数を指定してください"
+end
+
+#5.6.3.3 例外の伝播
+def explode
+	raise "bam!" if rand(10) == 0
+end
+
+def risky
+	begin
+		10.times do
+			explode
+		end
+	rescue TypeError
+		puts $!
+	end
+	"hello"
+end
+
+def defuse
+	begin
+		puts risky
+	rescue RuntimeError => e
+		puts e.message
+	end
+end
+
+defuse
+
+#5.6.3.5 rescue節でのretry
+require 'open-uri'
+tries = 0
+begin
+	tries += 1
+	open('http://www.example.com/'){|f| puts f.readlines }
+rescue OpenURI::HTTPError => e
+	puts e.message
+	if (tries < 4)
+		sleep(2**tries)
+		retry
+	end
+end
+
+		
