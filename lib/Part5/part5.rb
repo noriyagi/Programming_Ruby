@@ -73,8 +73,7 @@ puts name
 
 x = 2
 name =  case x
-	when 1 
-	 "one"
+	when 1 then "one"
 	when 2 then "two"
 	when 3 ; "three"
 	else "many"
@@ -525,4 +524,77 @@ rescue OpenURI::HTTPError => e
 	end
 end
 
-		
+#第6章 メソッド、proc、lambda、クロージャ
+#6.1 簡単なメソッドの定義
+def factorial3(n)
+	if n < 1
+		raise "argument must be > 0"
+	elsif n == 1
+		1
+	else
+		n*factorial(n-1)
+	end
+end
+
+#6.1.1 メソッドの戻り値
+def factorial4(n)
+	raise "bad argument" if n < 1
+	return 1 if n == 1
+	n*factorial(n-1)
+end
+
+def polar(x, y)
+	return Math.hypot(y, x), Math.atan2(y, x)
+end
+
+x, y = polar(5, 5)
+p x
+p y
+
+def cartesian(magnitude, angle)
+	[magnitude*Math.cos(angle), magnitude*Math.sin(angle)]
+end
+
+distance, theta = cartesian(5, 5)
+
+p distance
+p theta
+
+o = "message"
+def o.printme
+	puts self
+end
+o.printme
+
+#a = "aaaaa"
+#a.printme
+
+#6.2 メソッド名
+#6.2.1 演算子メソッド
+def +(other)
+	self.concatenate(other)
+end
+
+#6.2.2 メソッドの別名
+alias plr polar
+w, z = plr(5, 5)
+p w
+p x
+
+def hello
+	puts "Hello World"
+end
+
+alias original_hello hello
+
+def hello
+	puts "お知らせします。 "
+	original_hello
+	puts "テストでした。 "
+end
+
+hello
+
+#6.3 メソッドとかっこ
+
+
