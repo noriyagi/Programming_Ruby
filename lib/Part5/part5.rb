@@ -596,5 +596,54 @@ end
 hello
 
 #6.3 メソッドとかっこ
+#6.3.1 省略可能なかっこ
+puts "Hello world"
+puts ("Hello world")
 
+greeting = "Hello"
+size = greeting.length
+puts size
+
+x = 3
+puts x.between? 1,5
+
+#6.3.2 必須のかっこ
+#puts sum 2,2
+#puts sum(2,2)
+
+#puts square(2+2)*2
+#puts square (2+2)*2
+
+#6.4 メソッド引数
+#6.4.1 引数のデフォルト値
+def prefix(s, len=1)
+	s[0,len]
+end
+
+p prefix("Ruby",3)
+p prefix("Ruby")
+
+def suffix(s, index=s.size-1)
+	s[index, s.size-index]
+end
+p suffix("Ruby")
+
+def append(x, a=[])
+	a << x
+end
+
+#6.4.2 可変長引数リストと配列
+#def max(first, #rest)
+#	max = first
+#	rest.each{|x| max = x if x > max}
+#	max
+#end
+
+#p max(1)
+#p max(1,2)
+#p max(1,2,3)
+
+#6.4.2.1 メソッドの配列引数
+#data = [3,2,1]
+#m = max(*data)
 
