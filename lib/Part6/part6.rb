@@ -296,3 +296,84 @@ def test5
 end
 test5
 
+#6.5.5.2 ブロックやProc内のbreak
+def test6
+	puts "entering test method"
+	proc = Proc.new{ puts "entering proc"; break}
+#	proc.call                                       #breakして戻ろうにも、Proc.newメソッドは終了している。
+	puts "exiting test method"
+end 
+test6
+
+def iterator(&proc)
+	puts "entering iterator"
+	proc.call
+	puts "exiting iterator"
+end
+
+def test7
+	iterator{ puts "entering proc"; break}
+end
+test7
+
+def test8
+	puts "entering test8 method"
+	lambda = lambda{ puts "enteringn lambda"; break ; puts "exiting lambda" }
+	lambda.call
+	puts "exiting test method"
+end
+test8
+
+#6.5.5.4 procの引数渡し
+p = Proc.new{|x,y| print x,y}
+p.call(1)
+print "\n"
+p.call(1,2)
+print "\n"
+p.call(1,2,3)
+print "\n"
+p.call([1,2])
+print "\n"
+
+l = lambda{|x,y| print x,y}
+l.call(1,2)
+print "\n"
+l.call(*[1,2])
+print "\n"
+
+#6.6 クロージャ
+def multiply(data, n)
+	data.collect{|x| x*n}
+end
+puts multiply([1,2,3],2)
+
+def multipler(n)
+	lambda{|data| data.collect{|x| x*n}}
+end
+doubler = multipler(2)
+puts doubler.call([1,2,3])
+
+#6.6.1 クロージャと共有変数
+def accessor_pair(initialValue=nil)
+	value = initialValue   #２つのlambdaから共有されるローカル変数
+	getter = lambda{value}
+	setter = lambda{|x| value = x}
+	return getter, setter
+end
+
+getX, setX = accessor_pair(0)
+puts getX[]
+setX[10]
+puts getX[]
+
+def multiplers(*args)
+	x = nil
+	args.map{|x| lambda {|y| x*y}}
+end
+
+double, triple = multiplers(2,3)
+puts double.call(2)
+
+
+
+
