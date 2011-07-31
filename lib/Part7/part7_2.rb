@@ -29,13 +29,13 @@ class Point
 #       UNIT_Y = Point.new(0,1)
 
 	#新しいPointオブジェクトを作るクラスメソッド
-	def self.new(x,y)
+#	def Point.new(x,y)
 #		@n += 1
 #		@totalX += x
 #		@totalY += y
-
-		super       #チェイニンング？
-	end
+#
+#		super       #チェイニンング？
+#	end
 
 	#集計結果を報告するクラスメソッド
 	def self.report
@@ -132,13 +132,24 @@ end
 
 #7.3 サブクラス化と継承
 class Point3D < Point
+
+	def initialize(x,y,z)
+		#２つの引数をスーパークラスのinitializeに渡す。
+		super(x,y)
+		#第３引数は自分で処理
+		@z = z
+	end
+
+	def to_s
+		"(#@x, #@y, #@z)"
+	end
 end
 
-p2 = Point.new(1,2)
-p3 = Point3D.new(1,2)
-print p2.to_s, p2.class, "\n"
-print p3.to_s, p3.class, "\n"
-
+#p2 = Point.new(1,2)
+#p3 = Point3D.new(1,2)
+#print p2.to_s, p2.class, "\n"
+#print p3.to_s, p3.class, "\n"
+p Point3D.new(1,2,3).to_s
 
 #メソッドのオーバーライド
 class WorldGreeter
