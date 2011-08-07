@@ -202,7 +202,20 @@ puts b = data.pack(template)
 puts b.unpack(template)
 
 #9.2 正規表現
+#9.2.1 世紀表現リテラル
+# /Ruby?/  Rubの後ろに、"y"が一つか二つ。
+# /ruby?/i 大文字／小文字を区別しない。
+# /./mu    複数行でUnicodeにマッチする。
 
+# %r|/|
+# %r[</(.*)>]i
+
+money = /[$\u20AC\u{a3}\u{a5}]
+
+prefix = ","
+/#{prefix}\t/
+
+#9.2.2 正規表現ファクトリメソッド
 
 
 
