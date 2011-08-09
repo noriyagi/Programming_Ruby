@@ -216,7 +216,20 @@ prefix = ","
 /#{prefix}\t/
 
 #9.2.2 正規表現ファクトリメソッド
+Regexp.new("Ruby?")
+Regexp.new("ruby?",Regexp::IGNORECASE)
+Regexp.compile(".",Regexp::MULTILINE,"u")
 
+pattern = "[a-z]+"  #１個以上の文字
+suffix = Regexp.escape("()")  #かっこをエスケープしている。
+p r = Regexp.new(pattern + suffix)  #=> /[a-z]+\(\)/
+
+#5つの言語名のどれかにマッチする
+p pattern = Regexp.union("Ruby", "Perl", "Python", /Java(Script)?/)
+#かっこのどれかにマッチする => 自動的にエスケープされる。
+p Regexp.union("()", "[]", "{}")
+
+#9.2.3 正規表現の構文
 
 
 
