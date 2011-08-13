@@ -230,6 +230,118 @@ p pattern = Regexp.union("Ruby", "Perl", "Python", /Java(Script)?/)
 p Regexp.union("()", "[]", "{}")
 
 #9.2.3 正規表現の構文
+#9.2.4 正規表現によるパターンマッチング
+pattern = /Ruby?/i  #"Rub","Ruby"にマッチ
+puts pattern =~ "backrub"
+puts "rub ruby" =~ pattern
+puts pattern =~ "r"
+
+puts "hello" =~ /e\w{2}/  #"e"の後ろに2文字
+puts $~.string
+puts $~.to_s
+puts $~.pre_match
+puts $~.post_match
+
+
+#3個の部分式を持つ正規表現
+puts pattern = /(Ruby|Perl)(\s+)(rocks|sucks)!/
+text = "Ruby\trocks!"
+puts pattern =~ text
+puts data = Regexp.last_match
+puts data.size
+puts data[0]
+puts data[1]
+puts data[2]
+puts data[3]
+p data[1,2]
+p data[1..3]
+p data.values_at(1,3)
+p data.captures
+p Regexp.last_match(3)
+
+#マッチの先頭、末尾の位置
+puts data.begin(0)  #マッチ全体の先頭位置
+puts data.begin(2)  #第二の部分式にマッチした部分の先頭位置
+puts data.end(2)    #第二の部分式にマッチした部分の末尾位置
+puts data.offset(3) #第三の部分式にマッチした部分の先頭／末尾
+
+#9.2.4.2 文字列によるパターンマッチ
+#マッチした部分が返される
+puts "ruby123"[/\d+/]
+puts "ruby123"[/([a-z]+)(\d+)/,1]
+puts "ruby123"[/([a-z]+)(\d+)/,2]
+
+puts r = "ruby123"
+puts r.slice!(/\d+/)
+puts r
+
+s = "one, two, three"
+p s.split  #デフォルトのセパレータはスペース
+p s.split(", ")
+p s.split(/\s*,\s*/)  #カンマの前後に任意個のスペース
+
+#indexメソッド　マッチングの開始位置を指定できる。
+text = "hello world"
+pattern = /l/
+puts first = text.index(pattern)
+puts n = Regexp.last_match.end(0)  #最初のマッチの末尾の位置
+puts second = text.index(pattern, n)
+puts last = text.rindex(pattern)
+
+#9.2.4.3 置換
+#phone = gets
+#phone.sub!(/#.*$/, "")
+#phone.gsub!(/\D/, ' '=>'-')
+
+p text = "Hello rails snd grails"
+p text.gsub("rails", "Rails")
+p text.gsub(/\brails\b/, "Rails")
+
+p text.gsub(/\brails\b/i, '<b>\0</b>')
+
+#9.3b 数値と数学
+#9.3.1 Numericのメソッド
+
+#一般的な記述
+p 0.zero?
+p 1.0.zero?
+p 0.0.nonzero?
+p 1.nonzero?
+p 1.integer?
+p 1.0.integer?
+#p 1.real?
+#p 1.0.real?
+#p Complex(1,2).real?
+
+#Integerの記述
+#p 0.even?
+#p 0.odd?
+
+#Floatの記述
+ZERO, INF, NAN = 0.0, 1.0/0.0, 0.0/0.0
+
+p ZERO.finite?
+p INF.finite?
+p NAN.finite?
+p ZERO.infinite?
+p INF.infinite?
+p -INF.infinite?
+p NAN.infinite?
+
+p ZERO.nan?
+p INF.nan?
+p NAN.nan?
+
+#丸めメソッド
+p 1.1.ceil
+p -1.1.ceil
+p 1.9.floor
+p -1.9.floor
+p 1.1.round
+p 0.5.round
+p -0.5.round
+p 1.1.truncate
+p -1.1.to_i
 
 
 
