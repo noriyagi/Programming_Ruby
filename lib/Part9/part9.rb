@@ -343,5 +343,42 @@ p -0.5.round
 p 1.1.truncate
 p -1.1.to_i
 
+#9.3.2 Mathモジュール
 
+#定数
+p Math::PI
+p Math::E
+
+#累乗根
+p Math.sqrt(25.0)
+#p Math.cbrt(27.0)
+p 27.0**(1.0/3.0)
+
+#対数
+p Math.log10(100.0)
+p Math.log(Math::E**3)
+#p Math.log2(8)
+#p Math.log(16,4)
+p Math.exp(2)
+
+#三角関数
+include Math
+p sin(PI/2)
+p cos(0)
+p tan(PI/4)
+p asin(1.0)/PI
+p sinh(0)
+p asinh(1.0)
+
+#直交座標＝＞極座標
+#p theta = atan2(y,x)
+#p r = hypot(x,y)  #斜辺の長さ
+
+#その他の関数
+#p f ,e = frexp(1024.0)
+#p x = ldexp(f, e)
+p erf(0.0)
+p erfc(0.0)
+#p gamma(5)
+#p lgamma(100)
 
