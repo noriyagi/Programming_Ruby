@@ -382,3 +382,70 @@ p erfc(0.0)
 #p gamma(5)
 #p lgamma(100)
 
+#9.3.4 複素数
+require "complex"
+p c = Complex(0.5,-0.2)
+p Complex.polar(1,Math::PI/2)
+p i = 1.im
+p (2.5 - 3.5.im).to_s
+p r,i = c.real, c.imag
+p m,a = c.polar
+p d = c.conj
+#p z = "0+0i".to_c
+#p 10.times{ z = z*z + c}
+p 1.im**2
+#p x = Math.sin(z)
+#require 'cmath'
+#p CMath.aqrt(-1)==Complex::I
+
+#9.3.3 10進演算
+require "bigdecimal"
+p dime = BigDecimal("0.1")
+p 4*dime - 3*dime == dime
+
+#住宅ローンの月々の支払い利子を計算する
+BigDecimal.mode(BigDecimal::ROUND_MODE, BigDecimal::ROUND_HALF_EVEN)
+BigDecimal.limit(20)
+principal = BigDecimal("200000")
+apr = BigDecimal("6.5")   #年利
+years = 30                #返済年数
+p payments = years*12        #年に１２回払う
+p interest = apr/100/12     #APRを月利に変換
+p x = (interest+1)**payments
+p monthly = (principal * interest * x)/(x-1)  #月々の支払額を計算
+p monthly = monthly.round(2)  #小数点以下２位で丸め
+p monthly = monthly.to_s("f")
+
+#有理数
+require "rational"
+p penny = Rational(1,100)
+# nickel = "5/100".to_r
+#p dime = 10.quo 100
+#p change = 2*dime + 3*penny
+#p change.numerator
+#p change.denomirator
+#p change.to_f
+
+#9.3.6 ベクトルと行列
+require "matrix"
+unit = Vector[1,1]
+#単位行列
+p identity = Matrix.identity(2) #2*2の行列
+p identity*unit == unit
+
+#次の行列は、点をsx,syにスケーリングする。
+sx,sy = 2.0,3.0
+p scale = Matrix[[sx,0],[0,sy]]
+p scale*unit #スカラー倍された点
+
+#原点を中心に左回りで点を回転する
+p theta = Math::PI/2
+p rotate = Matrix[[Math.cos(theta), -Math.sin(theta)],[Math.sin(theta), -Math.cos(theta)]]
+p rotate*unit #90度回転
+
+#２つの変形を一度に行う
+p scale*(rotate*unit)
+
+#9.3.7 乱数
+
+
